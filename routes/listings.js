@@ -1,12 +1,9 @@
 const express = require("express")
 const router = express.Router()
 
-router.get("/", (req, res) => {
-    res.status(200).json({
-        success: true,
-        data: "Receive array of all apartment",
-    })
-})
+const db = require("../queries")
+
+router.get("/", db.getApartments)
 
 router.get("/:id", (req, res) => {
     res.status(200).json({

@@ -3,6 +3,8 @@ const dotenv = require("dotenv")
 
 const listings = require("./routes/listings")
 
+const db = require("./queries")
+
 dotenv.config()
 
 const app = express()
