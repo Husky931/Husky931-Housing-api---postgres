@@ -12,11 +12,6 @@ const pool = new Pool({
     // port: process.env.DBPORT,
 })
 
-// pool.query("SELECT * FROM listings", (err, result) => {
-//     console.log(err, result.rows)
-//     pool.end()
-// })
-
 const getApartments = (req, res) => {
     pool.query("SELECT * FROM listings", (error, results) => {
         if (error) {
