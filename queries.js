@@ -27,7 +27,7 @@ const registerUser = async (req, res) => {
     const checkUser = await pool.query("SELECT * FROM users WHERE email = $1", [email])
 
     if (checkUser.rows.length > 0) {
-        return res.status(403).json({ success: false, message: "email already in use" })
+        return res.status(202).json({ success: false, message: "email already in use" })
     }
 
     pool.query(
@@ -37,9 +37,24 @@ const registerUser = async (req, res) => {
             if (error) {
                 console.log(error)
             }
-            res.status(200).json(results.row)
+            res.status(200).json(results.rows)
         }
     )
 }
 
-module.exports = { getApartments, registerUser }
+const checkLogin = async (req, res) => {
+    const { email, password } = req.body
+
+    const checkUser = await pool.query("SELECT * FROM users WHERE email = $1", [email])
+
+    if (checkUser.rows.length > 0 && checkUser.rows[0].password === password) {
+        return res.status(200).json({ success: true, message: "welcome" })
+    }
+    if (checkUser.rows.length > 0 && checkUser.rows[0].password !== password) {
+        return res.status(403).json({ success: false, message: "password does not match" })
+    }
+
+    return res.status(403).json({ success: false, message: "User not found" })
+}
+
+module.exports = { getApartments, registerUser, checkLogin }

@@ -3,6 +3,7 @@ const dotenv = require("dotenv")
 
 const listings = require("./routes/listings")
 const register = require("./routes/register")
+const login = require("./routes/login")
 const db = require("./queries")
 
 dotenv.config()
@@ -11,23 +12,15 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.use("/listings", listings)
-app.use("/register", register)
-
 app.get("/", (req, res) => {
     res.status(200).json({
         success: true,
         data: "Homepage ok",
     })
 })
-
-app.post("/login", (req, res) => {
-    // let { fname, lname, email, password } = req.body
-    res.status(200).json({
-        success: true,
-        data: "Login user",
-    })
-})
+app.use("/listings", listings)
+app.use("/register", register)
+app.use("/login", login)
 
 const PORT = 5000
 
